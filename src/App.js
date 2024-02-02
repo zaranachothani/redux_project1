@@ -1,23 +1,27 @@
 import logo from './logo.svg';
 import './App.css';
+import { useSelector, useDispatch } from 'react-redux';
+import { increment, decrement, InputVal } from './App/reducer/counterSlice';
 
 function App() {
+
+  const count= useSelector((state) => state.counter.value);
+  const inputVal= useSelector((state) => state.counter.inputVal);
+  const dispatch = useDispatch();
+
+  const handleChange = (event) => {
+    dispatch(InputVal(event.target.value));
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+        <input type='text' value={inputVal} onChange={handleChange}></input>
+
+        <span>Count : {count}</span>
+
+        <button onClick={() => dispatch(increment())}>Increment</button>
+        <button onClick={() => dispatch(decrement())}>decrement</button>
     </div>
   );
 }
